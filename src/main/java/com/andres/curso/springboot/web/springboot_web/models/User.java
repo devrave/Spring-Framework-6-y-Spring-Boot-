@@ -1,5 +1,7 @@
 package com.andres.curso.springboot.web.springboot_web.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class User {
   
   private String name;
@@ -7,12 +9,15 @@ public class User {
   private String email;
 
   
-
+  public User(){
+    
+  }
   
   public User(String name, String lastname) {
     this.name = name;
     this.lastname = lastname;
   }
+  
   public User(String name, String lastname, String email) {
     this(name,lastname);  
     this.email = email;

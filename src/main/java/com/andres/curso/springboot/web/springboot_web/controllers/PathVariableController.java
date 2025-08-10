@@ -3,16 +3,35 @@ package com.andres.curso.springboot.web.springboot_web.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.andres.curso.springboot.web.springboot_web.models.User;
 import com.andres.curso.springboot.web.springboot_web.models.dto.ParamDto;
 
 @RestController //Para apirest
 @RequestMapping(path = "api/var") //para ruta inicial, ruta base
 public class PathVariableController {
+
+  //vamos a crear variables para poder incluir las configuraciones de nuestro values.properties
+  @Value("${config.code}")
+  private Integer code;
+
+  @Value("${config.username}")
+  private String username;
+
+  @Value("${config.message}")
+  private String message;
+
+  @Value("${config.listOfValues}")
+  private String[] listOfValues;
+
 
 
   // Con la anotacion PathVariale se envia informacion a traves de la ruta y no de la url
@@ -49,5 +68,29 @@ public class PathVariableController {
     newpar.setCode(id);
     return newpar;
   }
+
+  //Uso de postman con los siguientes metodos
+
+  @PostMapping("create")
+  public User create(@RequestBody User user){
+    // hacer algo con el usuario save en la bbdd
+    return user;
+  }
+
+  // GetMapping de los value.properties
+
+  @GetMapping(path = "/values")
+  public Map<String, Object> values(){
+    Map<String, Object> json = new HashMap<>();
+    json.put("username", username);
+    json.put("code", code);
+    json.put("message", message);
+    json.put("listOfValues", listOfValues);
+
+    return json;
+
+  }
+
+
 
 }
